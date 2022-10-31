@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class MemberCreatedEvent {
 
+    private static final int MIN_ADULT_AGE = 20;
+
     private final Long id;
     private final String name;
     private final int age;
@@ -14,12 +16,20 @@ public class MemberCreatedEvent {
         this.age = age;
     }
 
+    public boolean isAdult() {
+        return age >= MIN_ADULT_AGE;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     @Override
