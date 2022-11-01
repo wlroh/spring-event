@@ -1,6 +1,7 @@
 package kitckenpos.members.application;
 
 import kitckenpos.common.event.MemberCreatedEvent;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,9 +19,11 @@ class MemberServiceEventTest {
     @Autowired
     private FakeEventListener fakeEventListener;
 
+    @DisplayName("유저를 회원가입하면 MemberCreatedEvent 를 발행한다.")
     @Test
-    void name() {
+    void memberCreatedEvent() {
         memberService.join("홍길동", 20);
+
         assertThat(fakeEventListener.getCount()).isEqualTo(1);
     }
 }
