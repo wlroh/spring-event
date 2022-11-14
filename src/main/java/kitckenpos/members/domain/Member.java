@@ -1,5 +1,6 @@
 package kitckenpos.members.domain;
 
+import kitckenpos.common.event.Events;
 import kitckenpos.common.event.MemberCreatedEvent;
 import kitckenpos.members.domain.vo.Age;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -39,7 +40,8 @@ public class Member extends AbstractAggregateRoot<Member> {
 
     @PostPersist
     private void created() {
-        registerEvent(new MemberCreatedEvent(id, name, age.toInt()));
+        Events.registerEvent(new MemberCreatedEvent(id, name, age.toInt()));
+//        registerEvent(new MemberCreatedEvent(id, name, age.toInt()));
     }
 
     public Long getId() {
