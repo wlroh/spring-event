@@ -9,6 +9,7 @@ import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RecordApplicationEvents
 @SpringBootTest
@@ -25,6 +26,9 @@ public class MemberServiceEventTestV2 {
     void memberCreatedEvent() {
         memberService.join("홍길동", 20);
 
-        assertThat(events.stream(MemberCreatedEvent.class).count()).isEqualTo(1);
+        assertAll(
+                () -> assertThat(events.stream(MemberCreatedEvent.class).count()).isEqualTo(1),
+                () -> assertThat(events.stream(MemberCreatedEvent.class).findFirst().get().getId()).isNotNull()
+        );
     }
 }
