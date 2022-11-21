@@ -1,6 +1,9 @@
 package kitckenpos.members.domain;
 
+import kitckenpos.common.event.Events;
+import kitckenpos.common.event.MemberCreatedEvent;
 import kitckenpos.members.domain.vo.Age;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -8,9 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostPersist;
 
 @Entity
-public class Member {
+public class Member extends AbstractAggregateRoot<Member> {
 
     @Id
     @Column(name = "member_id")
@@ -32,6 +36,12 @@ public class Member {
     public Member(final String name, final Age age) {
         this.name = name;
         this.age = age;
+    }
+
+    @PostPersist
+    private void created() {
+        Events.registerEvent(new MemberCreatedEvent(id, name, age.toInt()));
+//        registerEvent(new MemberCreatedEvent(id, name, age.toInt()));
     }
 
     public Long getId() {
